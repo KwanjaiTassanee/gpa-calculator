@@ -17,21 +17,26 @@
             color: #4CAF50;
         }
         form {
-            max-width: 500px;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        label {
-            display: block;
+        .subject-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 10px;
         }
+        label {
+            flex: 1;
+            font-weight: bold;
+        }
         input[type="text"], input[type="number"] {
-            width: 100%;
+            flex: 2;
             padding: 8px;
-            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -57,10 +62,12 @@
     <h1>GPA and GPAX Calculator</h1>
     <form id="gpa-form">
         <div id="subjects">
-            <label>Subject 1: </label>
-            <input type="text" placeholder="Subject Name" class="subject-name">
-            <input type="text" placeholder="Grade (e.g., A, B+, C)" class="subject-grade">
-            <input type="number" placeholder="Credits" class="subject-credits">
+            <div class="subject-row">
+                <label>Subject 1:</label>
+                <input type="text" placeholder="Subject Name" class="subject-name">
+                <input type="text" placeholder="Grade (e.g., A, B+, C)" class="subject-grade">
+                <input type="number" placeholder="Credits" class="subject-credits">
+            </div>
         </div>
         <button type="button" onclick="addSubject()">Add Another Subject</button>
         <br><br>
@@ -75,8 +82,9 @@
             subjectCount++;
             const subjectsDiv = document.getElementById('subjects');
             const newSubject = document.createElement('div');
+            newSubject.className = "subject-row";
             newSubject.innerHTML = `
-                <label>Subject ${subjectCount}: </label>
+                <label>Subject ${subjectCount}:</label>
                 <input type="text" placeholder="Subject Name" class="subject-name">
                 <input type="text" placeholder="Grade (e.g., A, B+, C)" class="subject-grade">
                 <input type="number" placeholder="Credits" class="subject-credits">
