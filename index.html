@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA and GPAX Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>GPA and GPAX Calculator</h1>
+    <form id="gpa-form">
+        <div id="subjects">
+            <label>Subject 1: </label>
+            <input type="text" placeholder="Subject Name" class="subject-name">
+            <input type="text" placeholder="Grade (e.g., A, B+, C)" class="subject-grade">
+            <input type="number" placeholder="Credits" class="subject-credits">
+        </div>
+        <button type="button" onclick="addSubject()">Add Another Subject</button>
+        <br><br>
+        <button type="button" onclick="calculate()">Calculate GPA</button>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        let subjectCount = 1;
+
+        function addSubject() {
+            subjectCount++;
+            const subjectsDiv = document.getElementById('subjects');
+            const newSubject = document.createElement('div');
+            newSubject.innerHTML = `
+                <label>Subject ${subjectCount}: </label>
+                <input type="text" placeholder="Subject Name" class="subject-name">
+                <input type="text" placeholder="Grade (e.g., A, B+, C)" class="subject-grade">
+                <input type="number" placeholder="Credits" class="subject-credits">
+            `;
+            subjectsDiv.appendChild(newSubject);
+        }
+
+        function getGradePoint(grade) {
+            const gradePoints = {
+                'A': 4.0,
+                'B+': 3.5,
+                'B': 3.0,
+                'C+': 2.5,
+                'C': 2.0,
+                'D+': 1.5,
+                'D': 1.0,
+                'F': 0.0
+            };
+            return gradePoints[grade.toUpperCase()] || 0;
+        }
+
+        function calculate() {
+            const subjectNames = document.querySelectorAll('.subject-name');
+            const grades = document.querySelectorAll('.subject-grade');
+            const credits = document.querySelectorAll('.subject-credits');
+            let totalCredits = 0;
+            let totalPoints = 0;
+
+            for (let i = 0; i < grades.length; i++) {
+                const grade = grades[i].value.trim();
+                const credit = parseFloat(credits[i].value);
+                if (grade && credit) {
+                    totalCredits += credit;
+                    totalPoints += getGradePoint(grade) * credit;
+                }
+            }
+
+            if (totalCredits === 0) {
+                document.getElementById('result').innerHTML = `<p style="color:red;">Please enter valid grades and credits!</p>`;
+                return;
+            }
+
+            const GPA = (totalPoints / totalCredits).toFixed(2);
+            document.getElementById('result').innerHTML = `<p>Your GPA is: <strong>${GPA}</strong></p>`;
+        }
+    </script>
+</body>
+</html>
